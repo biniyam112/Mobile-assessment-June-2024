@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'models/cart.dart';
+import 'screens/home_screen.dart';
+import 'screens/cart_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    return ChangeNotifierProvider(
+      create: (ctx) => Cart(),
+      child: MaterialApp(
+        title: 'E-commerce App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          primarySwatch: Colors.blue,
         ),
+        home: const HomeScreen(),
+        routes: {
+          CartScreen.routeName: (ctx) => const CartScreen(),
+        },
       ),
     );
   }

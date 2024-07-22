@@ -6,9 +6,14 @@ Enhance the given Flutter application by adding new features, improving the UI, 
 ## Tasks
 1. Clone this repository.
 2. Complete the following tasks:
-   - **UI Enhancement:** Implement a custom button as per the given design.
-   - **Feature Addition:** Fetch and display data from the provided API.
-   - **Bug Fix:** Identify and fix the bug in the form submission logic.
+   - **UI Enhancement:** Modify the product and cart cards to look more visually appealing.
+      - Observe the models and utilize additional fields that could be added to the cards to provide more information on the items.
+      - You can reference designs from the web for this purpose.
+   - **Feature Addition:** Add an "Add to Cart" button on the item detail page.
+      - The button should add the items into the "items" list, which will be used to show items in the cart page.
+      - Create a UI component that allows users to navigate to the cart page.
+      - Add images to the cart items.
+   - **Bug Fix:** Identify and fix any bugs (if there are any).
 3. Write unit tests for the new feature.
 
 ## Submission
@@ -25,5 +30,5 @@ Enhance the given Flutter application by adding new features, improving the UI, 
 
 ## Resources
 - [Flutter Documentation](https://flutter.dev/docs)
-- [API Documentation](https://api.example.com/docs)
+- [API Documentation](https://fakestoreapi.com/products)
 - [Design Assets](./assets/designs)
