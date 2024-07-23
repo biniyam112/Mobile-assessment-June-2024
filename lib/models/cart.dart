@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 
+import 'product/product.dart';
+
 class CartItem {
   final String id;
+  final String imageUrl;
   final String title;
   final int quantity;
   final double price;
 
   CartItem({
     required this.id,
+    required this.imageUrl,
     required this.title,
     required this.quantity,
     required this.price,
   });
+
+  @override
+  String toString() {
+    return 'CartItem(id: $id, title: $title, quantity: $quantity, price: $price)';
+  }
 }
 
 class Cart with ChangeNotifier {
@@ -33,12 +42,13 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void addItem(String productId, double price, String title) {
-    if (_items.containsKey(productId)) {
+  void addItem({required Product product}) {
+    if (_items.containsKey(product.id.toString())) {
       _items.update(
-        productId,
+        product.id.toString(),
         (existingCartItem) => CartItem(
           id: existingCartItem.id,
+          imageUrl: existingCartItem.imageUrl,
           title: existingCartItem.title,
           quantity: existingCartItem.quantity + 1,
           price: existingCartItem.price,
@@ -46,12 +56,13 @@ class Cart with ChangeNotifier {
       );
     } else {
       _items.putIfAbsent(
-        productId,
+        product.id.toString(),
         () => CartItem(
-          id: DateTime.now().toString(),
-          title: title,
+          id: product.id.toString(),
+          imageUrl: product.image!,
+          title: product.title!,
+          price: product.price!,
           quantity: 1,
-          price: price,
         ),
       );
     }
@@ -59,6 +70,7 @@ class Cart with ChangeNotifier {
   }
 
   void removeItem(String productId) {
+    debugPrint("The items are $_items and the product id is $productId");
     _items.remove(productId);
     notifyListeners();
   }
