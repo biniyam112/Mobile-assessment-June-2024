@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/product/product.dart';
 import '../screens/product_detail.dart';
@@ -20,21 +21,32 @@ class ProductItem extends StatelessWidget {
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            color: Theme.of(context).focusColor,
-            onPressed: () {
-              // Add to cart functionality
-            },
-          ),
           title: Text(
             product.title!,
             textAlign: TextAlign.center,
           ),
         ),
-        child: Image.network(
-          product.image!,
-          fit: BoxFit.cover,
+        child: CachedNetworkImage(
+          imageUrl: product.image!,
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+          placeholder: (context, url) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  color: Colors.orange[900],
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  "Getting item image",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

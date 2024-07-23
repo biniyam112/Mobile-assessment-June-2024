@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: GoogleFonts.poppins().fontFamily,
           scaffoldBackgroundColor: Colors.white,
-          primaryColor: Colors.orange[900],
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,

@@ -9,52 +9,91 @@ class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
+    final listnableCart = Provider.of<Cart>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Cart'),
+        title: const Text(
+          'Your Cart',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 18,
+          ),
+        ),
+        centerTitle: true,
       ),
-      body: Column(
-        children: <Widget>[
-          Card(
+      bottomNavigationBar: ListenableBuilder(
+        listenable: listnableCart,
+        builder: (context, child) {
+          return Card(
+            elevation: 0,
+            color: Colors.white,
             margin: const EdgeInsets.all(15),
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
                   const Text(
                     'Total',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const Spacer(),
-                  Chip(
-                    label: Text(
-                      '\$${cart.totalAmount.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryTextTheme.headlineMedium?.color,
+                  Text(
+                    '\$${listnableCart.totalAmount.toStringAsFixed(2)}',
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                  ),
+                  const SizedBox(width: 20),
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor: listnableCart.itemCount == 0
+                          ? WidgetStatePropertyAll(Colors.orange[400]!)
+                          : WidgetStatePropertyAll(Colors.orange[900]!),
+                    ),
+                    onPressed: listnableCart.itemCount == 0
+                        ? null
+                        : () {
+                            // Order functionality
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Color.fromARGB(255, 255, 229, 214),
+                                content: Text(
+                                  "Purchase completed!",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                      child: Text(
+                        'ORDER NOW',
+                        style: TextStyle(
+                          color: listnableCart.itemCount == 0 ? Colors.grey[100] : Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ),
-                  TextButton(
-                    child: const Text('ORDER NOW'),
-                    onPressed: () {
-                      // Order functionality
-                    },
                   )
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 10),
+          );
+        },
+      ),
+      body: Column(
+        children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: cart.items.length,
+              itemCount: listnableCart.items.length,
               itemBuilder: (ctx, i) => CartItemWidget(
-                cartItem: cart.items.values.toList()[i],
-                removeItem: cart.removeItem,
+                cartItem: listnableCart.items.values.toList()[i],
+                removeItem: listnableCart.removeItem,
               ),
             ),
           )

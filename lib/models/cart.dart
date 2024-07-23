@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/models/product/product.dart';
 
 class CartItem {
   final String id;
@@ -33,10 +34,10 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void addItem(String productId, double price, String title) {
-    if (_items.containsKey(productId)) {
+  void addItem({required Product product}) {
+    if (_items.containsKey(product.id.toString())) {
       _items.update(
-        productId,
+        product.id.toString(),
         (existingCartItem) => CartItem(
           id: existingCartItem.id,
           title: existingCartItem.title,
@@ -46,12 +47,12 @@ class Cart with ChangeNotifier {
       );
     } else {
       _items.putIfAbsent(
-        productId,
+        product.id.toString(),
         () => CartItem(
           id: DateTime.now().toString(),
-          title: title,
+          title: product.title!,
           quantity: 1,
-          price: price,
+          price: product.price!,
         ),
       );
     }
