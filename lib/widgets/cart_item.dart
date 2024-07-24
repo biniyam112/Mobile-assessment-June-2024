@@ -5,7 +5,8 @@ class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;
   final Function removeItem;
 
-  const CartItemWidget({super.key, required this.cartItem, required this.removeItem});
+  const CartItemWidget(
+      {super.key, required this.cartItem, required this.removeItem});
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +36,39 @@ class CartItemWidget extends StatelessWidget {
           vertical: 4,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(5),
           child: ListTile(
-            leading: CircleAvatar(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: FittedBox(
-                  child: Text('\$${cartItem.price}'),
-                ),
-              ),
-            ),
+            leading: cartItem.imageUrl != null
+                ? Image.network(
+                    cartItem.imageUrl!,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.error);
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                    width: 50,
+                    height: 50,
+                  )
+                : null,
             title: Text(cartItem.title),
             subtitle: Text('Total: \$${cartItem.price * cartItem.quantity}'),
-            trailing: Text('${cartItem.quantity} x'),
+            trailing: Column(
+              children: [
+                CircleAvatar(
+                  child: Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: FittedBox(
+                      child: Text('\$${cartItem.price}'),
+                    ),
+                  ),
+                ),
+                Text('${cartItem.quantity} x'),
+              ],
+            ),
           ),
         ),
       ),
