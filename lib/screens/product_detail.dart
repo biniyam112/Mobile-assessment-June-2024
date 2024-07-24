@@ -43,156 +43,176 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             },
           )),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CachedNetworkImage(
-              imageUrl: widget.product.image!,
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              placeholder: (context, url) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: Colors.orange[900],
-                    ),
-                    const SizedBox(height: 24),
-                    const Text(
-                      "Getting item image",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              '\$${widget.product.price}',
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              widget.product.description!,
-              textAlign: TextAlign.center,
-              softWrap: true,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  // padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    border: Border.all(color: Colors.green),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl: widget.product.image!,
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                placeholder: (context, url) => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        hoverColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          increaseItemCount();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.black,
-                          ),
-                        ),
+                      CircularProgressIndicator(
+                        color: Colors.orange[900],
                       ),
-                      Text(
-                        itemCount.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      InkWell(
-                        hoverColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          decreaseItemCount();
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            Icons.remove,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    for (int i = 0; i < itemCount; i++) {
-                      Provider.of<Cart>(context, listen: false).addItem(
-                        product: widget.product,
-                      );
-                    }
-                    setState(() {
-                      itemCount = 0;
-                    });
-                    Navigator.pushNamed(context, '/cart');
-                  },
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      fixedSize: const Size(190, 50)),
-                  child: Row(
-                    children: [
+                      const SizedBox(height: 24),
                       const Text(
-                        'Add To Card',
+                        "Getting item image",
                         style: TextStyle(
+                          color: Colors.grey,
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
                         ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      badges.Badge(
-                        badgeContent: Text(
-                          Provider.of<Cart>(context, listen: true)
-                              .totalItemCount
-                              .toString(),
-                        ),
-                        child: const Icon(Icons.shopping_cart),
                       ),
                     ],
                   ),
                 ),
-              ],
-            )
-          ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '\$${widget.product.price}',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: const Color.fromARGB(185, 255, 235, 59),
+                      ),
+                      Text(widget.product.rating != null
+                          ? widget.product.rating!.rate.toString()
+                          : '')
+                    ],
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                widget.product.description!,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    // padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.green),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          hoverColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            increaseItemCount();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          itemCount.toString(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        InkWell(
+                          hoverColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            decreaseItemCount();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.remove,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      for (int i = 0; i < itemCount; i++) {
+                        Provider.of<Cart>(context, listen: false).addItem(
+                          product: widget.product,
+                        );
+                      }
+                      setState(() {
+                        itemCount = 0;
+                      });
+                      Navigator.pushNamed(context, '/cart');
+                    },
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        fixedSize: const Size(190, 50)),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Add To Card',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        badges.Badge(
+                          badgeContent: Text(
+                            Provider.of<Cart>(context, listen: true)
+                                .totalItemCount
+                                .toString(),
+                          ),
+                          child: const Icon(Icons.shopping_cart),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
