@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter_assessment/models/cart.dart';
 import 'package:provider/provider.dart';
 import '../models/product/product.dart';
@@ -80,6 +81,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               textAlign: TextAlign.center,
               softWrap: true,
             ),
+            const SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -88,7 +92,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
-                    border: Border.all(color: Colors.black),
+                    border: Border.all(color: Colors.green),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -119,7 +123,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       Text(
                         itemCount.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -147,12 +151,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ElevatedButton(
                   onPressed: () {
                     for (int i = 0; i < itemCount; i++) {
-                      Provider.of<Cart>(context, listen: false)
-                          .addItem(product: widget.product);
+                      Provider.of<Cart>(context, listen: false).addItem(
+                        product: widget.product,
+                      );
                     }
                     setState(() {
                       itemCount = 0;
                     });
+                    Navigator.pushNamed(context, '/cart');
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -166,7 +172,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const Text(
                         'Add To Card',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      badges.Badge(
+                        badgeContent: Text(
+                          Provider.of<Cart>(context, listen: true)
+                              .totalItemCount
+                              .toString(),
+                        ),
+                        child: const Icon(Icons.shopping_cart),
                       ),
                     ],
                   ),
