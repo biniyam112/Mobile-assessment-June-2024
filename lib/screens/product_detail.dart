@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/product/product.dart';
+import '../models/cart.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
@@ -59,8 +61,13 @@ class ProductDetailScreen extends StatelessWidget {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Add to cart functionality
-                
+                Provider.of<Cart>(context, listen: false).addItem(product: product);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${product.title} added to cart!'),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
@@ -71,7 +78,7 @@ class ProductDetailScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white
+                  color: Colors.white,
                 ),
               ),
             ),

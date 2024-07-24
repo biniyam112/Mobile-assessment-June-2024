@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/widgets/cart_item.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
-import '../widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   static String routeName = '/cart';
 
   const CartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final listnableCart = Provider.of<Cart>(context);
@@ -26,7 +27,7 @@ class CartScreen extends StatelessWidget {
         listenable: listnableCart,
         builder: (context, child) {
           return Card(
-            elevation: 0,
+            elevation: 5,
             color: Colors.white,
             margin: const EdgeInsets.all(15),
             child: Padding(
@@ -43,15 +44,19 @@ class CartScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    '\$${listnableCart.totalAmount.toStringAsFixed(2)}',
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                    '\$${listnableCart.totalAmount}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: Colors.orange,
+                    ),
                   ),
                   const SizedBox(width: 20),
                   TextButton(
                     style: ButtonStyle(
                       backgroundColor: listnableCart.itemCount == 0
-                          ? WidgetStatePropertyAll(Colors.orange[600]!)
-                          : WidgetStatePropertyAll(Colors.orange[900]!),
+                          ? MaterialStateProperty.all(Colors.orange[600]!)
+                          : MaterialStateProperty.all(Colors.orange[900]!),
                     ),
                     onPressed: listnableCart.itemCount == 0
                         ? null
