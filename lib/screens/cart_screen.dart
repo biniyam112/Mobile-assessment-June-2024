@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
                   TextButton(
                     style: ButtonStyle(
                       backgroundColor: listnableCart.itemCount == 0
-                          ? WidgetStatePropertyAll(Colors.orange[400]!)
+                          ? WidgetStatePropertyAll(Colors.orange[600]!)
                           : WidgetStatePropertyAll(Colors.orange[900]!),
                     ),
                     onPressed: listnableCart.itemCount == 0

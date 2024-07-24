@@ -11,54 +11,88 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(product.title!),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )),
+        title: Text(
+          product.title!,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CachedNetworkImage(
               imageUrl: product.image!,
               errorWidget: (context, url, error) => const Icon(Icons.error),
-              placeholder: (context, url) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: Colors.orange[900],
-                    ),
-                    const SizedBox(height: 24),
-                    const Text(
-                      "Getting item image",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              placeholder: (context, url) => const ShimmerPlaceholder(),
+              fit: BoxFit.contain,
+              height: 300,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16.0),
             Text(
               '\$${product.price}',
               style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
+                color: Colors.orange,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 16.0),
             Text(
               product.description!,
-              textAlign: TextAlign.center,
-              softWrap: true,
+              textAlign: TextAlign.justify,
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                // Add to cart functionality
+                
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+              ),
+              child: const Text(
+                'Add to Cart',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShimmerPlaceholder extends StatelessWidget {
+  const ShimmerPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300,
+      color: Colors.grey[300],
+      child: const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
         ),
       ),
     );
