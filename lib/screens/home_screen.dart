@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/screens/cart_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/product/product.dart';
@@ -21,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _fetchProducts() async {
-    final response = await http.get(Uri.parse('https://fakestoreapi.com/products'));
+    final response =
+        await http.get(Uri.parse('https://fakestoreapi.com/products'));
     final List<dynamic> productData = json.decode(response.body);
     setState(() {
       _products = productData.map((json) => Product.fromMap(json)).toList();
@@ -34,12 +36,31 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Products'),
+        title: const Text('Products',
+            style: TextStyle(
+              color: Color.fromARGB(221, 3, 101, 111),
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+            )),
+        leading: IconButton(
+            icon: const Icon(Icons.next_plan),
+            onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CartScreen(
+                  cartItems: [],
+                  )),
+            );
+            },
+            tooltip: 'My Carts',
+          ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: RefreshIndicator(
             onRefresh: () async {
               await _fetchProducts();
@@ -49,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: _products.length,
               itemBuilder: (ctx, i) => ProductItem(product: _products[i]),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 3,
                 childAspectRatio: 3 / 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,

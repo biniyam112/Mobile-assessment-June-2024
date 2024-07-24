@@ -58,3 +58,7 @@ Enhance the given Flutter application by adding new features, improving the UI, 
 - [Change Notifier](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html)
 - [Listenable Builder](https://api.flutter.dev/flutter/widgets/ListenableBuilder-class.html)
 - Feel free to use any package of your choice for any purpose.
+
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
