@@ -1,18 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/models/cart.dart';
+import 'package:flutter_assessment/screens/cart_screen.dart';
 import '../models/product/product.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   final Product product;
 
   const ProductDetailScreen({required this.product, super.key});
 
   @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  List<CartItem> items = [];
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            product.title!,
+            widget.product.title!,
             style: const TextStyle(
               color: Color.fromARGB(221, 3, 101, 111),
               fontSize: 20,
@@ -20,6 +28,41 @@ class ProductDetailScreen extends StatelessWidget {
             ),
           ),
           centerTitle: true,
+          actions: [
+            const Padding(
+              padding: EdgeInsets.only(right: 10.0),
+              child: Text(
+                'Add to Cart',
+                style: TextStyle(
+                  color: Color.fromARGB(221, 3, 101, 111),
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: Color.fromARGB(221, 3, 101, 111),
+                  size: 30,
+                ),
+                onPressed: () {
+                  items.add(CartItem(
+                      title: widget.product.title!,
+                      id: '',
+                      price: widget.product.price,
+                      quantity: 1));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CartScreen(cartItems: items),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
@@ -36,7 +79,7 @@ class ProductDetailScreen extends StatelessWidget {
           child: Column(
             children: [
               CachedNetworkImage(
-                imageUrl: product.image!,
+                imageUrl: widget.product.image!,
                 height: 500,
                 errorWidget: (context, url, error) => const Icon(Icons.error),
                 placeholder: (context, url) => Center(
@@ -61,7 +104,7 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '\$${product.price}',
+                '\$${widget.product.price}',
                 style: const TextStyle(
                   color: Color.fromARGB(221, 3, 101, 111),
                   fontSize: 20,
@@ -74,7 +117,7 @@ class ProductDetailScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        product.description!,
+                        widget.product.description!,
                         style: const TextStyle(
                           color: Color.fromARGB(221, 3, 101, 111),
                           fontSize: 15,
@@ -83,7 +126,6 @@ class ProductDetailScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         softWrap: true,
                       ),
-                      
                     ],
                   ),
                 ),

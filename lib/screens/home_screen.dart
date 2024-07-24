@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/screens/cart_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/product/product.dart';
@@ -40,8 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Color.fromARGB(221, 3, 101, 111),
               fontSize: 50,
               fontWeight: FontWeight.bold,
-              
             )),
+        leading: IconButton(
+            icon: const Icon(Icons.next_plan),
+            onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CartScreen(
+                  cartItems: [],
+                  )),
+            );
+            },
+            tooltip: 'My Carts',
+          ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
