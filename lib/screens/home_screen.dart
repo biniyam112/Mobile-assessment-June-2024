@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/models/cart.dart';
 import 'package:http/http.dart' as http;
+import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import '../models/product/product.dart';
 import '../widgets/product_item.dart';
@@ -36,6 +39,24 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         title: const Text('Products'),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+              child: badges.Badge(
+                badgeContent: Text(
+                  Provider.of<Cart>(context, listen: true)
+                      .totalItemCount
+                      .toString(),
+                ),
+                child: const Icon(Icons.shopping_cart),
+              ),
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: SizedBox(
