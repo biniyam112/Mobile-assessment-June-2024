@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/models/cart.dart';
+import 'package:provider/provider.dart';
 import '../models/product/product.dart';
 import '../screens/product_detail.dart';
 
@@ -54,8 +56,14 @@ class ProductItem extends StatelessWidget {
                 icon: const Icon(Icons.add_shopping_cart),
                 color: Colors.white,
                 onPressed: () {
-                  // Implement add to cart functionality here
-                  print('Product added to cart: ${product.title}');
+                  Provider.of<Cart>(context, listen: false)
+                      .addItem(product: product);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${product.title} added to cart!'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
                 },
               ),
             ),
@@ -65,7 +73,8 @@ class ProductItem extends StatelessWidget {
                 CachedNetworkImage(
                   imageUrl: product.image!,
                   fit: BoxFit.cover,
-                  errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.red),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error, color: Colors.red),
                   placeholder: (context, url) => Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +98,8 @@ class ProductItem extends StatelessWidget {
                   top: 10,
                   left: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.blueGrey[800], // Updated color
                       borderRadius: BorderRadius.circular(8),
@@ -113,7 +123,8 @@ class ProductItem extends StatelessWidget {
                   top: 10,
                   right: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.blueGrey[800], // Updated color
                       borderRadius: BorderRadius.circular(8),
