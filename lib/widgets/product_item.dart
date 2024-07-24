@@ -18,33 +18,81 @@ class ProductItem extends StatelessWidget {
           ),
         );
       },
-      child: GridTile(
-        footer: GridTileBar(
-          backgroundColor: Colors.black87,
-          title: Text(
-            product.title!,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        child: CachedNetworkImage(
-          imageUrl: product.image!,
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-          placeholder: (context, url) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
+          footer: GridTileBar(
+            backgroundColor: const Color.fromARGB(221, 3, 101, 111),
+            leading: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {},
+              color: Colors.orange[900],
+            ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircularProgressIndicator(
-                  color: Colors.orange[900],
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  "Getting item image",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
+                Text(
+                  product.title!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '\$${product.price}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      product.category!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      'avg: ${product.rating?.rate}/5',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                )
               ],
+            ),
+          ),
+          child: CachedNetworkImage(
+            imageUrl: product.image!,
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            placeholder: (context, url) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: Colors.orange[900],
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    "Getting item image",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

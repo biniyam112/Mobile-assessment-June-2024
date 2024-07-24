@@ -34,7 +34,7 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void addItem({required Product product}) {
+  void addItem(String s, {required Product product}) {
     if (_items.containsKey(product.id.toString())) {
       _items.update(
         product.id.toString(),
