@@ -6,12 +6,14 @@ class CartItem {
   final String title;
   final int quantity;
   final double price;
+  final String image;
 
   CartItem({
     required this.id,
     required this.title,
     required this.quantity,
     required this.price,
+    required this.image,
   });
 }
 
@@ -43,6 +45,7 @@ class Cart with ChangeNotifier {
           title: existingCartItem.title,
           quantity: existingCartItem.quantity + 1,
           price: existingCartItem.price,
+          image: existingCartItem.image
         ),
       );
     } else {
@@ -53,6 +56,7 @@ class Cart with ChangeNotifier {
           title: product.title!,
           quantity: 1,
           price: product.price!,
+          image: product.image!,
         ),
       );
     }
