@@ -1,17 +1,39 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/models/cart.dart';
+import 'package:provider/provider.dart';
 import '../models/product/product.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   final Product product;
 
   const ProductDetailScreen({required this.product, super.key});
 
   @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  int itemCount = 0;
+  void increaseItemCount() {
+    setState(() {
+      itemCount++;
+    });
+  }
+
+  void decreaseItemCount() {
+    if (itemCount > 0) {
+      setState(() {
+        itemCount--;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(product.title!),
+          title: Text(widget.product.title!),
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -23,7 +45,7 @@ class ProductDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             CachedNetworkImage(
-              imageUrl: product.image!,
+              imageUrl: widget.product.image!,
               errorWidget: (context, url, error) => const Icon(Icons.error),
               placeholder: (context, url) => Center(
                 child: Column(
@@ -46,7 +68,7 @@ class ProductDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              '\$${product.price}',
+              '\$${widget.product.price}',
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 20,
@@ -54,10 +76,104 @@ class ProductDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              product.description!,
+              widget.product.description!,
               textAlign: TextAlign.center,
               softWrap: true,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  // padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        hoverColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          increaseItemCount();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        itemCount.toString(),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      InkWell(
+                        hoverColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          decreaseItemCount();
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    for (int i = 0; i < itemCount; i++) {
+                      Provider.of<Cart>(context, listen: false)
+                          .addItem(product: widget.product);
+                    }
+                    setState(() {
+                      itemCount = 0;
+                    });
+                    Navigator.pushNamed(context, '/cart');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      fixedSize: const Size(190, 50)),
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Add To Card',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
