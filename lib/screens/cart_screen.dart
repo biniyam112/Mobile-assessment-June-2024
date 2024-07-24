@@ -24,18 +24,13 @@ class CartScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/cart');
-              },
-              child: badges.Badge(
-                badgeContent: Text(
-                  Provider.of<Cart>(context, listen: true)
-                      .totalItemCount
-                      .toString(),
-                ),
-                child: const Icon(Icons.shopping_cart),
+            child: badges.Badge(
+              badgeContent: Text(
+                Provider.of<Cart>(context, listen: true)
+                    .totalItemCount
+                    .toString(),
               ),
+              child: const Icon(Icons.shopping_cart),
             ),
           )
         ],
