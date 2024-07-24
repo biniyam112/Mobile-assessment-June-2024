@@ -153,7 +153,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     setState(() {
                       itemCount = 0;
                     });
-                    Navigator.pushNamed(context, '/cart');
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

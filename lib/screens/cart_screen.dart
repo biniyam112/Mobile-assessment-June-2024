@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart' as badges;
 import '../models/cart.dart';
 import '../widgets/cart_item.dart';
 
@@ -12,14 +13,32 @@ class CartScreen extends StatelessWidget {
     final listnableCart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Your Cart - ${listnableCart.totalItemCount} items',
-          style: const TextStyle(
+        title: const Text(
+          'Your Cart',
+          style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
         ),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/cart');
+              },
+              child: badges.Badge(
+                badgeContent: Text(
+                  Provider.of<Cart>(context, listen: true)
+                      .totalItemCount
+                      .toString(),
+                ),
+                child: const Icon(Icons.shopping_cart),
+              ),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: ListenableBuilder(
         listenable: listnableCart,
