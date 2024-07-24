@@ -6,7 +6,10 @@ import 'screens/home_screen.dart';
 import 'screens/cart_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (ctx) => Cart())],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
