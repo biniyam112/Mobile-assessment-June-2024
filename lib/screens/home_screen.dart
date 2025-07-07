@@ -35,6 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text('Products'),
+        leading: IconButton(
+          icon: const Icon(Icons.shopping_cart),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/cart');
+          },
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -50,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (ctx, i) => ProductItem(product: _products[i]),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 3 / 2,
+                childAspectRatio: 0.5,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),

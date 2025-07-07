@@ -26,7 +26,7 @@ class CartScreen extends StatelessWidget {
         listenable: listnableCart,
         builder: (context, child) {
           return Card(
-            elevation: 0,
+            elevation: 10,
             color: Colors.white,
             margin: const EdgeInsets.all(15),
             child: Padding(
@@ -56,7 +56,8 @@ class CartScreen extends StatelessWidget {
                     onPressed: listnableCart.itemCount == 0
                         ? null
                         : () {
-                            // Order functionality
+                            // listnableCart.addItem(product: )
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Color.fromARGB(255, 255, 229, 214),
